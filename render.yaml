@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: stripe-integration-api
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: "8000"
+      - key: BASE_URL
+        value: "https://your-service.onrender.com"
+      - key: STRIPE_SECRET_KEY
+        # Set this value in Render dashboard as a secret after connecting the repo
+        value: ""
+      - key: STRIPE_PUBLISHABLE_KEY
+        value: ""
+      - key: STRIPE_WEBHOOK_SECRET
+        value: ""
+      - key: PRICE_29_ID
+        value: ""
+      - key: PRICE_99_ID
+        value: ""
+      - key: PRICE_299_ID
+        value: ""
