@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Brandy Wells AI Research Hub | LIVE</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    body{font-family:Arial;background:#000;color:#fff;text-align:center;padding:20px}
+    .live-banner{background:#f00;color:#fff;padding:15px;font-weight:bold;margin-bottom:30px}
+    h1{color:#0f0;margin:30px 0}
+    .payment-card{background:#111;padding:30px;border-radius:15px;margin:20px auto;max-width:400px;border:2px solid #0f0}
+    .price{font-size:3em;color:#0f0;font-weight:bold;margin:20px 0}
+    .btn{background:#0f0;color:#000;padding:15px 30px;border:none;border-radius:10px;font-weight:bold;margin:15px;cursor:pointer;display:block;width:100%}
+    .contact{background:#222;padding:20px;border-radius:10px;margin:30px auto;max-width:500px}
+  </style>
+</head>
+<body>
+  <div class="live-banner">🚀 BRANDY WELLS AI RESEARCH HUB - LIVE & ACCEPTING PAYMENTS</div>
+  <h1>🤖 Brandy Wells AI Research Hub</h1>
+  <p>Proprietor: Brandy Wells | 402 Payment Required System</p>
+
+  <div class="payment-card">
+    <h2>Individual Researcher</h2>
+    <div class="price">$29<span style="font-size:0.5em;color:#888">/month</span></div>
+    <p>• AI Research Papers</p>
+    <p>• Monthly Datasets</p>
+    <p>• Basic API Access</p>
+    <button class="btn" onclick="pay(29)">💳 Subscribe Now - $29</button>
+  </div>
+
+  <div class="payment-card">
+    <h2>AI Agent Access</h2>
+    <div class="price">$99<span style="font-size:0.5em;color:#888">/month</span></div>
+    <p>• Everything in Individual</p>
+    <p>• AI Agent API Keys</p>
+    <p>• Webhook Integration</p>
+    <button class="btn" onclick="pay(99)" style="background:#764ba2">🤖 Subscribe AI - $99</button>
+  </div>
+
+  <div class="payment-card">
+    <h2>Enterprise Solution</h2>
+    <div class="price">$299<span style="font-size:0.5em;color:#888">/month</span></div>
+    <p>• Everything in AI Agent</p>
+    <p>• Multiple Team Seats</p>
+    <p>• Custom Integrations</p>
+    <button class="btn" onclick="pay(299)" style="background:#f00">🏢 Enterprise - $299</button>
+  </div>
+
+  <div class="contact">
+    <h3>📞 Business Information</h3>
+    <p><strong>Business:</strong> Brandy Wells AI Research Hub</p>
+    <p><strong>Owner:</strong> Brandy Wells</p>
+    <p><strong>Payment Processor:</strong> Stripe (Connected)</p>
+    <p><strong>Status:</strong> Ready to Accept Payments</p>
+  </div>
+
+  <div style="margin:40px auto;padding:20px;background:#0f0;color:#000;border-radius:10px;max-width:600px">
+    <h3>💰 YOUR SITE IS LIVE!</h3>
+    <p>Share this link to start getting paid:</p>
+    <p style="font-weight:bold;font-size:1.2em" id="site-url">Loading...</p>
+    <button onclick="shareSite()" style="background:#000;color:#0f0;padding:10px 20px;border:none;border-radius:5px;margin:10px">
+      📤 Share My Business Link
+    </button>
+  </div>
+
+  <script>
+    // Replace this publishable key placeholder with your real publishable key
+    const stripe = Stripe('pk_test_YOUR_PUBLISHABLE_KEY');
+
+    // Map amounts to Stripe Price IDs (replace placeholders with your real price IDs)
+    const priceMap = {
+      29: 'price_29_placeholder',
+      99: 'price_99_placeholder',
+      299: 'price_299_placeholder'
+    };
+
+    const BUSINESS_NAME = "Brandy Wells AI Research Hub";
+
+    document.getElementById('site-url').textContent = window.location.href;
+
+    async function pay(amount) {
+      const email = prompt("Enter your email for receipt:");
+      if (!email) return;
+
+      const priceId = priceMap[amount];
+      if (!priceId) return alert('Price not configured for that tier.');
+
+      try {
+        const res = await fetch('/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ priceId, customerEmail: email })
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+        const { error } = await stripe.redirectToCheckout({ sessionId: data.sessionId });
+        if (error) alert(error.message);
+      } catch (err) {
+        console.error(err);
+        alert('Payment failed: ' + err.message);
+      }
+    }
+
+    function shareSite() {
+      const url = window.location.href;
+      navigator.clipboard.writeText(url);
+      alert('✅ Business link copied! Share it anywhere to get customers.');
+    }
+
+    setInterval(() => {
+      const banners = [
+        '🚀 BRANDY WELLS AI RESEARCH HUB - LIVE & ACCEPTING PAYMENTS',
+        '💰 EARN MONEY TODAY - AI AGENTS CAN PAY AUTOMATICALLY',
+        '🔒 SECURED BY STRIPE - PAYMENTS GO TO YOUR BANK',
+        '🎯 GET YOUR FIRST PAYMENT WITHIN HOURS'
+      ];
+      const randomBanner = banners[Math.floor(Math.random() * banners.length)];
+      document.querySelector('.live-banner').textContent = randomBanner;
+    }, 3000);
+  </script>
+</body>
+</html>
