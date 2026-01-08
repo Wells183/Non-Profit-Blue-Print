@@ -68,7 +68,10 @@ This repository contains a Stripe Checkout integration for the Brandy Wells AI R
    STRIPE_SECRET_KEY=sk_test_your_actual_test_key_here
    STRIPE_PUBLISHABLE_KEY=pk_test_your_actual_publishable_key_here
    DOMAIN=http://localhost:3000
+   ALLOWED_ORIGINS=
    ```
+   
+   Note: `ALLOWED_ORIGINS` can be left empty for local development (same-origin requests only).
 
    **⚠️ IMPORTANT**: Never commit your `.env` file or expose your secret keys!
 
@@ -141,6 +144,7 @@ For more test cards, visit [Stripe Testing Documentation](https://stripe.com/doc
    vercel env add STRIPE_SECRET_KEY
    vercel env add STRIPE_PUBLISHABLE_KEY
    vercel env add DOMAIN
+   vercel env add ALLOWED_ORIGINS
    ```
    
    Option B - Via Dashboard:
@@ -150,6 +154,7 @@ For more test cards, visit [Stripe Testing Documentation](https://stripe.com/doc
      - `STRIPE_SECRET_KEY`: Your Stripe secret key
      - `STRIPE_PUBLISHABLE_KEY`: Your Stripe publishable key
      - `DOMAIN`: Your deployment URL (e.g., `https://your-app.vercel.app`)
+     - `ALLOWED_ORIGINS`: Comma-separated list of allowed origins for CORS (optional, e.g., `https://yourdomain.com,https://www.yourdomain.com`)
 
 5. **Deploy to production**
    ```bash
@@ -260,6 +265,10 @@ When you're ready to accept real payments:
 - ✅ Implement webhook signature verification for production
 - ✅ Use HTTPS in production (Vercel provides this automatically)
 - ✅ Keep your Stripe library updated
+- ✅ **CORS Protection**: The serverless function validates origins using the `ALLOWED_ORIGINS` environment variable
+  - For local development, leave `ALLOWED_ORIGINS` empty (same-origin requests only)
+  - For production, set to your domain: `ALLOWED_ORIGINS=https://yourdomain.com,https://www.yourdomain.com`
+  - This prevents unauthorized domains from calling your API endpoint
 
 ## Troubleshooting
 

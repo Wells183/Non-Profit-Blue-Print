@@ -2,13 +2,22 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 module.exports = async (req, res) => {
-  // Enable CORS
+  // Enable CORS with origin validation
+  const origin = req.headers.origin;
+  const allowedOrigins = process.env.ALLOWED_ORIGINS 
+    ? process.env.ALLOWED_ORIGINS.split(',') 
+    : [];
+  
+  // Allow same-origin requests or whitelisted origins
+  if (origin && (allowedOrigins.includes(origin) || allowedOrigins.length === 0)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  
   res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
   res.setHeader(
     'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+    'Content-Type, Accept'
   );
 
   if (req.method === 'OPTIONS') {
@@ -100,9 +109,10 @@ module.exports = async (req, res) => {
     res.status(200).json({ url: session.url });
   } catch (error) {
     console.error('Error creating checkout session:', error);
+    
+    // Return generic error message to client, log details server-side
     res.status(500).json({ 
-      error: 'Failed to create checkout session',
-      message: error.message 
+      error: 'Failed to create checkout session. Please try again.'
     });
   }
 };
