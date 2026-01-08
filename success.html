@@ -180,7 +180,10 @@
         const urlParams = new URLSearchParams(window.location.search);
         const sessionId = urlParams.get('session_id');
         
-        if (sessionId) {
+        // Validate session ID format to prevent XSS
+        const sessionIdPattern = /^cs_[a-zA-Z0-9_]+$/;
+        
+        if (sessionId && sessionIdPattern.test(sessionId)) {
             document.getElementById('session-id').textContent = `Session ID: ${sessionId}`;
         } else {
             document.getElementById('session-id').style.display = 'none';

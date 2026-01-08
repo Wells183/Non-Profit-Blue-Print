@@ -11,11 +11,11 @@ module.exports = async (req, res) => {
   const isProduction = process.env.NODE_ENV === 'production';
   
   // In production, require explicit origin whitelist
-  // In development, allow same-origin when no origins configured
+  // In development, allow localhost origins only when no origins configured
   if (origin) {
     if (allowedOrigins.length > 0 && allowedOrigins.includes(origin)) {
       res.setHeader('Access-Control-Allow-Origin', origin);
-    } else if (!isProduction && allowedOrigins.length === 0) {
+    } else if (!isProduction && allowedOrigins.length === 0 && origin.startsWith('http://localhost')) {
       res.setHeader('Access-Control-Allow-Origin', origin);
     }
   }
@@ -60,9 +60,24 @@ module.exports = async (req, res) => {
     }
 
     // Get the domain for success/cancel URLs
-    const protocol = req.headers['x-forwarded-proto'] || 'http';
-    const host = req.headers['x-forwarded-host'] || req.headers.host;
-    const domain = process.env.DOMAIN || `${protocol}://${host}`;
+    // In production, require DOMAIN to be explicitly set to prevent host header injection
+    let domain = process.env.DOMAIN;
+    
+    if (!domain) {
+      if (isProduction) {
+        res.status(500).json({ error: 'Server configuration error' });
+        console.error('DOMAIN environment variable must be set in production');
+        return;
+      }
+      // In development, fallback to localhost with validation
+      const host = req.headers['x-forwarded-host'] || req.headers.host;
+      if (host && host.startsWith('localhost')) {
+        const protocol = req.headers['x-forwarded-proto'] || 'http';
+        domain = `${protocol}://${host}`;
+      } else {
+        domain = 'http://localhost:3000';
+      }
+    }
 
     // Create session parameters based on mode
     const sessionParams = {

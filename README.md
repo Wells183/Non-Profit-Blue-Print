@@ -151,10 +151,10 @@ For more test cards, visit [Stripe Testing Documentation](https://stripe.com/doc
    - Go to your project in the [Vercel Dashboard](https://vercel.com/dashboard)
    - Navigate to Settings → Environment Variables
    - Add the following variables:
-     - `STRIPE_SECRET_KEY`: Your Stripe secret key
-     - `STRIPE_PUBLISHABLE_KEY`: Your Stripe publishable key
-     - `DOMAIN`: Your deployment URL (e.g., `https://your-app.vercel.app`)
-     - `ALLOWED_ORIGINS`: Comma-separated list of allowed origins for CORS (optional, e.g., `https://yourdomain.com,https://www.yourdomain.com`)
+     - `STRIPE_SECRET_KEY`: Your Stripe secret key (required)
+     - `STRIPE_PUBLISHABLE_KEY`: Your Stripe publishable key (required)
+     - `DOMAIN`: Your deployment URL (e.g., `https://your-app.vercel.app`) - **Required for production**
+     - `ALLOWED_ORIGINS`: Comma-separated list of allowed origins for CORS (e.g., `https://yourdomain.com,https://www.yourdomain.com`) - **Required for production**
 
 5. **Deploy to production**
    ```bash
@@ -250,7 +250,9 @@ When you're ready to accept real payments:
 
 2. **Update environment variables in Vercel**
    - Replace test keys with live keys
-   - Ensure `DOMAIN` points to your production URL
+   - **IMPORTANT**: Set `DOMAIN` to your production URL (required in production)
+   - **IMPORTANT**: Set `ALLOWED_ORIGINS` to your production domain(s) (required in production)
+   - These security measures prevent unauthorized access to your payment endpoints
 
 3. **Test thoroughly** in live mode with small amounts before going fully live
 
@@ -266,10 +268,14 @@ When you're ready to accept real payments:
 - ✅ Use HTTPS in production (Vercel provides this automatically)
 - ✅ Keep your Stripe library updated
 - ✅ **CORS Protection**: The serverless function validates origins using the `ALLOWED_ORIGINS` environment variable
-  - For local development (NODE_ENV != 'production'), leave `ALLOWED_ORIGINS` empty (same-origin requests allowed)
+  - For local development (NODE_ENV != 'production'), localhost origins are allowed when `ALLOWED_ORIGINS` is empty
   - For production (NODE_ENV = 'production'), you **must** set `ALLOWED_ORIGINS` to your domain(s): `ALLOWED_ORIGINS=https://yourdomain.com,https://www.yourdomain.com`
   - Vercel automatically sets NODE_ENV=production for production deployments
   - This prevents unauthorized domains from calling your API endpoint
+- ✅ **Host Header Protection**: In production, `DOMAIN` must be explicitly set to prevent host header injection attacks
+  - The serverless function requires `DOMAIN` to be set in production environments
+  - This prevents attackers from manipulating redirect URLs
+- ✅ **XSS Protection**: Session IDs are validated against expected patterns before display
 
 ## Troubleshooting
 
