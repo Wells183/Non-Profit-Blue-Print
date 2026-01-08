@@ -69,9 +69,10 @@ module.exports = async (req, res) => {
         console.error('DOMAIN environment variable must be set in production');
         return;
       }
-      // In development, fallback to localhost with validation
+      // In development, fallback to localhost with strict validation
       const host = req.headers['x-forwarded-host'] || req.headers.host;
-      if (host && host.startsWith('localhost')) {
+      // Only allow exact localhost or localhost with port
+      if (host && /^localhost(:\d+)?$/.test(host)) {
         const protocol = req.headers['x-forwarded-proto'] || 'http';
         domain = `${protocol}://${host}`;
       } else {

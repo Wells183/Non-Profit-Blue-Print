@@ -180,8 +180,8 @@
         const urlParams = new URLSearchParams(window.location.search);
         const sessionId = urlParams.get('session_id');
         
-        // Validate session ID format to prevent XSS
-        const sessionIdPattern = /^cs_[a-zA-Z0-9_]+$/;
+        // Validate session ID format to prevent XSS (Stripe format: cs_...)
+        const sessionIdPattern = /^cs_[a-zA-Z0-9_-]{40,}$/;
         
         if (sessionId && sessionIdPattern.test(sessionId)) {
             document.getElementById('session-id').textContent = `Session ID: ${sessionId}`;
