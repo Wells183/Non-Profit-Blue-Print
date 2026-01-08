@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brandy Wells AI Research Hub - Subscribe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .plans {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .plan-card {
+            background: white;
+            border-radius: 10px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .plan-card.featured {
+            border: 3px solid #667eea;
+        }
+        
+        .plan-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #667eea;
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .plan-price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .plan-price span {
+            font-size: 1.2rem;
+            color: #666;
+        }
+        
+        .plan-description {
+            color: #666;
+            margin-bottom: 30px;
+            min-height: 50px;
+        }
+        
+        .plan-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .plan-features li {
+            padding: 10px 0;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .plan-features li::before {
+            content: '✓';
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .subscribe-btn {
+            width: 100%;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .subscribe-btn:hover {
+            background: #5568d3;
+        }
+        
+        .subscribe-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .email-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .email-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .email-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .email-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            opacity: 0.9;
+        }
+        
+        .error-message {
+            background: #ff4444;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Brandy Wells AI Research Hub</h1>
+            <p>Choose your subscription plan and start your journey</p>
+        </div>
+        
+        <div class="email-section">
+            <h2>Enter Your Email</h2>
+            <input type="email" id="email" class="email-input" placeholder="your@email.com" required>
+        </div>
+        
+        <div id="error-message" class="error-message"></div>
+        
+        <div class="plans">
+            <div class="plan-card">
+                <div class="plan-name">Starter</div>
+                <div class="plan-price">$29<span>/month</span></div>
+                <div class="plan-description">Perfect for individuals starting their AI journey</div>
+                <ul class="plan-features">
+                    <li>Access to basic AI research tools</li>
+                    <li>Monthly research reports</li>
+                    <li>Community forum access</li>
+                    <li>Email support</li>
+                </ul>
+                <button class="subscribe-btn" data-amount="2900">Subscribe Now</button>
+            </div>
+            
+            <div class="plan-card featured">
+                <div class="plan-name">Professional</div>
+                <div class="plan-price">$99<span>/month</span></div>
+                <div class="plan-description">For professionals seeking advanced insights</div>
+                <ul class="plan-features">
+                    <li>Everything in Starter</li>
+                    <li>Advanced AI research tools</li>
+                    <li>Weekly research reports</li>
+                    <li>1-on-1 consultation (monthly)</li>
+                    <li>Priority support</li>
+                </ul>
+                <button class="subscribe-btn" data-amount="9900">Subscribe Now</button>
+            </div>
+            
+            <div class="plan-card">
+                <div class="plan-name">Enterprise</div>
+                <div class="plan-price">$299<span>/month</span></div>
+                <div class="plan-description">For organizations requiring full access</div>
+                <ul class="plan-features">
+                    <li>Everything in Professional</li>
+                    <li>Custom AI research projects</li>
+                    <li>Daily research updates</li>
+                    <li>Unlimited consultations</li>
+                    <li>Dedicated account manager</li>
+                    <li>24/7 premium support</li>
+                </ul>
+                <button class="subscribe-btn" data-amount="29900">Subscribe Now</button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Secure payment powered by Stripe | Cancel anytime</p>
+        </div>
+    </div>
+    
+    <script>
+        // Get all subscribe buttons
+        const subscribeButtons = document.querySelectorAll('.subscribe-btn');
+        const emailInput = document.getElementById('email');
+        const errorMessage = document.getElementById('error-message');
+        
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+            setTimeout(() => {
+                errorMessage.classList.remove('show');
+            }, 5000);
+        }
+        
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        // Add click event listener to each button
+        subscribeButtons.forEach(button => {
+            button.addEventListener('click', async function() {
+                const amount = parseInt(this.getAttribute('data-amount'));
+                const email = emailInput.value.trim();
+                
+                // Validate email
+                if (!email) {
+                    showError('Please enter your email address');
+                    emailInput.focus();
+                    return;
+                }
+                
+                if (!validateEmail(email)) {
+                    showError('Please enter a valid email address');
+                    emailInput.focus();
+                    return;
+                }
+                
+                // Disable all buttons
+                subscribeButtons.forEach(btn => btn.disabled = true);
+                this.textContent = 'Processing...';
+                
+                try {
+                    // Call the serverless function to create a checkout session
+                    const response = await fetch('/api/create-checkout-session', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            amount: amount,
+                            mode: 'subscription',
+                            email: email
+                        }),
+                    });
+                    
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || 'Failed to create checkout session');
+                    }
+                    
+                    const session = await response.json();
+                    
+                    // Redirect to Stripe Checkout
+                    if (session.url) {
+                        window.location.href = session.url;
+                    } else {
+                        throw new Error('No checkout URL received');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError(error.message || 'An error occurred. Please try again.');
+                    
+                    // Re-enable buttons
+                    subscribeButtons.forEach(btn => {
+                        btn.disabled = false;
+                        btn.textContent = 'Subscribe Now';
+                    });
+                }
+            });
+        });
+        
+        // Allow enter key to trigger subscription with default (professional) plan
+        emailInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const professionalButton = document.querySelector('[data-amount="9900"]');
+                if (professionalButton) {
+                    professionalButton.click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Cancelled - Brandy Wells AI Research Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 60px 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .cancel-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+            background: #ff9800;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: scaleIn 0.5s ease-out;
+        }
+        
+        .cancel-icon::after {
+            content: '⚠';
+            color: white;
+            font-size: 50px;
+        }
+        
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .info-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .info-box h3 {
+            color: #f57c00;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .info-box li {
+            color: #555;
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .info-box li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #ff9800;
+            font-weight: bold;
+        }
+        
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 15px 40px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .button-primary {
+            background: #667eea;
+        }
+        
+        .button-primary:hover {
+            background: #5568d3;
+        }
+        
+        .button-secondary {
+            background: #999;
+        }
+        
+        .button-secondary:hover {
+            background: #777;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #999;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cancel-icon"></div>
+        <h1>Payment Cancelled</h1>
+        <p>Your payment has been cancelled. No charges were made to your account.</p>
+        <p>We understand that sometimes you need more time to decide. Your subscription was not activated.</p>
+        
+        <div class="info-box">
+            <h3>Why Choose Brandy Wells AI Research Hub?</h3>
+            <ul>
+                <li>Access cutting-edge AI research and insights</li>
+                <li>Learn from industry experts and thought leaders</li>
+                <li>Join a community of AI enthusiasts</li>
+                <li>Get hands-on with advanced AI tools</li>
+                <li>Cancel anytime with no long-term commitment</li>
+            </ul>
+        </div>
+        
+        <div class="buttons">
+            <a href="/signup/" class="button button-primary">Try Again</a>
+            <a href="/" class="button button-secondary">Learn More</a>
+        </div>
+        
+        <div class="footer">
+            <p>Have questions? Contact us at support@brandywells-ai.com</p>
+        </div>
+    </div>
+</body>
+</html>

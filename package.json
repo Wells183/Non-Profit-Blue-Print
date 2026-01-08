@@ -1,0 +1,26 @@
+{
+  "name": "brandy-wells-ai-research-hub",
+  "version": "1.0.0",
+  "description": "Brandy Wells AI Research Hub with Stripe Checkout integration",
+  "main": "api/create-checkout-session.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "stripe",
+    "checkout",
+    "vercel",
+    "serverless",
+    "ai",
+    "research"
+  ],
+  "author": "Brandy Wells",
+  "license": "MIT",
+  "dependencies": {
+    "stripe": "^14.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
