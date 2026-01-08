@@ -266,8 +266,9 @@ When you're ready to accept real payments:
 - ✅ Use HTTPS in production (Vercel provides this automatically)
 - ✅ Keep your Stripe library updated
 - ✅ **CORS Protection**: The serverless function validates origins using the `ALLOWED_ORIGINS` environment variable
-  - For local development, leave `ALLOWED_ORIGINS` empty (same-origin requests only)
-  - For production, set to your domain: `ALLOWED_ORIGINS=https://yourdomain.com,https://www.yourdomain.com`
+  - For local development (NODE_ENV != 'production'), leave `ALLOWED_ORIGINS` empty (same-origin requests allowed)
+  - For production (NODE_ENV = 'production'), you **must** set `ALLOWED_ORIGINS` to your domain(s): `ALLOWED_ORIGINS=https://yourdomain.com,https://www.yourdomain.com`
+  - Vercel automatically sets NODE_ENV=production for production deployments
   - This prevents unauthorized domains from calling your API endpoint
 
 ## Troubleshooting

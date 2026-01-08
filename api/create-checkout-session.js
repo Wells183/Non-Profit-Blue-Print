@@ -5,12 +5,19 @@ module.exports = async (req, res) => {
   // Enable CORS with origin validation
   const origin = req.headers.origin;
   const allowedOrigins = process.env.ALLOWED_ORIGINS 
-    ? process.env.ALLOWED_ORIGINS.split(',') 
+    ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
     : [];
   
-  // Allow same-origin requests or whitelisted origins
-  if (origin && (allowedOrigins.includes(origin) || allowedOrigins.length === 0)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
+  const isProduction = process.env.NODE_ENV === 'production';
+  
+  // In production, require explicit origin whitelist
+  // In development, allow same-origin when no origins configured
+  if (origin) {
+    if (allowedOrigins.length > 0 && allowedOrigins.includes(origin)) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+    } else if (!isProduction && allowedOrigins.length === 0) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+    }
   }
   
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -39,9 +46,10 @@ module.exports = async (req, res) => {
       return;
     }
 
-    // Validate amount is a positive number
-    if (typeof amount !== 'number' || amount <= 0) {
-      res.status(400).json({ error: 'Amount must be a positive number' });
+    // Validate and parse amount
+    const parsedAmount = Number(amount);
+    if (isNaN(parsedAmount) || parsedAmount <= 0 || !Number.isInteger(parsedAmount)) {
+      res.status(400).json({ error: 'Amount must be a positive integer (cents)' });
       return;
     }
 
@@ -78,7 +86,7 @@ module.exports = async (req, res) => {
               name: 'Brandy Wells AI Research Hub Subscription',
               description: 'Monthly subscription to AI Research Hub',
             },
-            unit_amount: amount,
+            unit_amount: parsedAmount,
             recurring: {
               interval: 'month',
             },
@@ -95,7 +103,7 @@ module.exports = async (req, res) => {
               name: 'Brandy Wells AI Research Hub',
               description: 'One-time payment',
             },
-            unit_amount: amount,
+            unit_amount: parsedAmount,
           },
           quantity: 1,
         },
