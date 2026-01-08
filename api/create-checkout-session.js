@@ -15,8 +15,12 @@ module.exports = async (req, res) => {
   if (origin) {
     if (allowedOrigins.length > 0 && allowedOrigins.includes(origin)) {
       res.setHeader('Access-Control-Allow-Origin', origin);
-    } else if (!isProduction && allowedOrigins.length === 0 && origin.startsWith('http://localhost')) {
-      res.setHeader('Access-Control-Allow-Origin', origin);
+    } else if (!isProduction && allowedOrigins.length === 0) {
+      // Strict localhost validation: only allow exact localhost or localhost with port
+      const localhostPattern = /^http:\/\/localhost(:\d+)?$/;
+      if (localhostPattern.test(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+      }
     }
   }
   
